@@ -1,36 +1,149 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Prusa Market Analysis Dashboard
 
-## Getting Started
+A real-time market analysis dashboard for tracking Prusa 3D printer and upgrade prices across various platforms. This tool helps users identify market trends, price patterns, and exceptional deals in the 3D printing ecosystem.
 
-First, run the development server:
+View the live dashboard: [https://cdracars.github.io/prusa-market-analysis](https://cdracars.github.io/prusa-market-analysis)
 
+## Features
+
+### Comprehensive Market Overview
+- Real-time tracking of printer and upgrade listings
+- Price comparison against MSRP
+- Shipping cost analysis
+- Seller reliability metrics
+- Auction status monitoring
+
+### Model-Specific Analytics
+- Individual model price trends
+- Deal identification
+- Market availability tracking
+- Price distribution analysis
+- Shipping cost patterns
+
+### Upgrade Market Analysis
+- Categorized upgrade tracking
+- Price trend visualization
+- Vendor comparison
+- Deal spotting
+- Category-specific insights
+
+### Interactive Features
+- Detailed listing view
+- Real-time price updates
+- Auction time tracking
+- Seller verification
+- Direct listing access
+
+## Technical Implementation
+
+### Core Technologies
+- Next.js 14
+- React
+- TypeScript
+- Tailwind CSS
+- Recharts
+- ShadcnUI Components
+
+### Data Processing
+- Real-time data fetching
+- Price normalization
+- Shipping cost calculation
+- Market trend analysis
+- Deal identification algorithms
+
+### User Interface
+- Responsive design
+- Interactive charts
+- Tabbed navigation
+- Modal dialogs
+- Real-time updates
+
+## Development Setup
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/cdracars/prusa-market-analysis.git
+cd prusa-market-analysis
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Using Yarn (preferred):
+```bash
+yarn install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Using npm:
+```bash
+npm install
+```
 
-## Learn More
+3. Run the development server:
 
-To learn more about Next.js, take a look at the following resources:
+Using Yarn:
+```bash
+yarn dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Using npm:
+```bash
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Deploy on Vercel
+## Package Manager Notes
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This project can be used with either Yarn or npm. While both package managers will work, we recommend using Yarn for the following reasons:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Faster installation times
+- More reliable dependency resolution
+- Better caching mechanism
+- Parallel package downloads
+- Consistent installations across different machines
+
+If switching between package managers, make sure to:
+1. Delete the existing `node_modules` directory
+2. Delete the package manager lock file (`yarn.lock` or `package-lock.json`)
+3. Run a fresh install with your preferred package manager
+
+## Project Structure
+
+```
+prusa-market-analysis/
+├── app/
+│   ├── layout.tsx
+│   ├── page.tsx
+│   └── globals.css
+├── components/
+│   ├── listing-dialog.tsx
+│   ├── prusa-analysis-dashboard.tsx
+│   └── ui/
+├── lib/
+│   └── utils.ts
+├── types/
+│   └── listing.ts
+└── utils/
+    └── process-data.ts
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+Note: Please ensure you're using the same package manager as specified in the project's lock file to maintain consistency.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- [Prusa Research](https://www.prusa3d.com/) for their excellent 3D printers
+- [ShadcnUI](https://ui.shadcn.com/) for the component library
+- [Recharts](https://recharts.org/) for charting capabilities
+- [Radix UI](https://www.radix-ui.com/) for accessible primitives
