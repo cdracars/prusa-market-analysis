@@ -32,6 +32,25 @@ jobs:
           git commit -m "Update data files" || exit 0
           git push
 
-      # Optional: Trigger Next.js deployment
-      # - name: Deploy
-      #   Add deployment steps here
+          - name: Setup Node.js
+          uses: actions/setup-node@v4
+          with:
+            node-version: '20'
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Build Next.js app
+        run: yarn build
+        env:
+          NEXT_PUBLIC_BASE_PATH: /prusa-market-analysis
+
+      - name: Add .nojekyll file
+        run: touch out/.nojekyll
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: out
+          clean: true
