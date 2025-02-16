@@ -15,7 +15,7 @@ jobs:
       - name: Clone data repo
         uses: actions/checkout@v4
         with:
-          repository: cdracars/ebay-prusa-scrapper
+          repository: cdracars/ebay_prusa_scrapper
           path: data-repo
           token: ${{ secrets.DATA_REPO_PAT }} # PAT with repo access
 
