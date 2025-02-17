@@ -27,7 +27,7 @@ export function PrusaAnalysisDashboard() {
     async function fetchData() {
       try {
         const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
-        const url = `${basePath}/data/listings.json`;
+        const url = `${basePath}/data/current/listings.json`;
         const response = await fetch(url);
         if (!response.ok) {
           throw new Error("Failed to fetch data");
