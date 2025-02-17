@@ -368,7 +368,7 @@ export function PrusaAnalysisDashboard() {
     <>
       <div className="w-full space-y-4">
         <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="models">Models</TabsTrigger>
             <TabsTrigger value="upgrades">Upgrades</TabsTrigger>
