@@ -16,6 +16,7 @@ import {
 import { groupBy, meanBy } from "lodash";
 import { ListingDialog } from "@/components/listing-dialog";
 import type { Listing, ListingsData } from "@/types/listing";
+import { AuctionCard } from "./auction-card";
 
 export function PrusaAnalysisDashboard() {
   const [data, setData] = useState<ListingsData | null>(null);
@@ -65,9 +66,9 @@ export function PrusaAnalysisDashboard() {
   const getAuctionStatus = (listing: Listing): string => {
     if (listing.auction_type === "Buy It Now") return "Buy It Now";
 
-    if (!listing.auction_time) return listing.auction_type;
+    if (!listing.end_time) return listing.auction_type;
 
-    const endTime = new Date(listing.auction_time.end_time);
+    const endTime = new Date(listing.end_time);
     const now = new Date();
 
     if (endTime > now) {
@@ -78,8 +79,8 @@ export function PrusaAnalysisDashboard() {
   };
 
   const formatRemainingTime = (listing: Listing): string => {
-    if (!listing.auction_time) return "Not an auction";
-    return listing.auction_time.time_remaining;
+    if (!listing.time_remaining) return "Not an auction";
+    return listing.time_remaining;
   };
 
   const findStandoutListings = (listings: Listing[]) => {
@@ -223,7 +224,7 @@ export function PrusaAnalysisDashboard() {
                             {listing.auction_type !== "Buy It Now" && (
                               <span className="ml-2 text-xs text-gray-600">
                                 {getAuctionStatus(listing)}
-                                {listing.auction_time &&
+                                {listing.time_remaining &&
                                   ` (${formatRemainingTime(listing)})`}
                               </span>
                             )}
@@ -269,7 +270,7 @@ export function PrusaAnalysisDashboard() {
                             {listing.auction_type !== "Buy It Now" && (
                               <span className="ml-2 text-xs text-gray-600">
                                 {getAuctionStatus(listing)}
-                                {listing.auction_time &&
+                                {listing.time_remaining &&
                                   ` (${formatRemainingTime(listing)})`}
                               </span>
                             )}
@@ -287,7 +288,6 @@ export function PrusaAnalysisDashboard() {
     );
   };
 
-  // Add click handlers to model cards
   const ModelCard = ({
     model,
     listings,
@@ -352,7 +352,7 @@ export function PrusaAnalysisDashboard() {
                   {listing.auction_type !== "Buy It Now" && (
                     <span className="ml-2 text-xs text-gray-600">
                       {getAuctionStatus(listing)}
-                      {listing.auction_time &&
+                      {listing.time_remaining &&
                         ` (${formatRemainingTime(listing)})`}
                     </span>
                   )}
@@ -372,8 +372,8 @@ export function PrusaAnalysisDashboard() {
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="models">Models</TabsTrigger>
             <TabsTrigger value="upgrades">Upgrades</TabsTrigger>
+            <TabsTrigger value="auctions">Auctions</TabsTrigger>
           </TabsList>
-
           <TabsContent value="overview">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Card>
@@ -448,7 +448,6 @@ export function PrusaAnalysisDashboard() {
               <StandoutListingsCard />
             </div>
           </TabsContent>
-
           <TabsContent value="models">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {Object.entries(groupBy(data.listings, "model")).map(
@@ -458,7 +457,6 @@ export function PrusaAnalysisDashboard() {
               )}
             </div>
           </TabsContent>
-
           <TabsContent value="upgrades">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Card>
@@ -529,6 +527,92 @@ export function PrusaAnalysisDashboard() {
                   </div>
                 </CardContent>
               </Card>
+            </div>
+          </TabsContent>
+
+          {/* Add this TabsContent section */}
+          <TabsContent value="auctions">
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Auction Overview</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2">
+                      <p>
+                        Total Auctions:{" "}
+                        {
+                          data.listings.filter(
+                            (l) => l.auction_type === "Auction"
+                          ).length
+                        }
+                      </p>
+                      <p>
+                        Ending Today:{" "}
+                        {
+                          data.listings.filter(
+                            (l) =>
+                              l.auction_type === "Auction" &&
+                              l.time_remaining?.includes("h")
+                          ).length
+                        }
+                      </p>
+                      <p>
+                        Average Starting Price: $
+                        {(
+                          data.listings
+                            .filter((l) => l.auction_type === "Auction")
+                            .reduce((acc, l) => acc + l.price, 0) /
+                          data.listings.filter(
+                            (l) => l.auction_type === "Auction"
+                          ).length
+                        ).toFixed(2)}
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Quick Filters</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex flex-wrap gap-2">
+                      {["MK3S", "MK4", "MINI", "CORE"].map((model) => (
+                        <button
+                          key={model}
+                          className="px-3 py-1 rounded-full bg-gray-100 hover:bg-gray-200 text-sm"
+                          onClick={() => {
+                            // Add filter functionality here
+                          }}
+                        >
+                          {model}
+                        </button>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              <div className="space-y-4">
+                <h3 className="font-medium text-lg">Ending Soon</h3>
+                <div className="grid grid-cols-1 gap-3">
+                  {data.listings
+                    .filter((l) => l.auction_type === "Auction")
+                    .sort(
+                      (a, b) =>
+                        (a.seconds_remaining || 0) - (b.seconds_remaining || 0)
+                    )
+                    .map((listing, index) => (
+                      <AuctionCard
+                        key={index}
+                        listing={listing}
+                        onClick={() => setSelectedListing(listing)}
+                      />
+                    ))}
+                </div>
+              </div>
             </div>
           </TabsContent>
         </Tabs>

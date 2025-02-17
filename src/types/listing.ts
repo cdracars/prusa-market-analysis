@@ -1,9 +1,3 @@
-export interface AuctionTime {
-    time_remaining: string;
-    seconds_remaining: number;
-    end_time: string;
-
-}
 export interface Listing {
     platform: string;
     title: string;
@@ -18,7 +12,9 @@ export interface Listing {
     category: 'printer' | 'upgrade';
     model: string;
     auction_type: 'Buy It Now' | 'Auction' | 'Hybrid';
-    auction_time?: AuctionTime;
+    time_remaining?: string;
+    seconds_remaining?: number;
+    end_time?: string;
 }
 
 export interface ListingsData {
