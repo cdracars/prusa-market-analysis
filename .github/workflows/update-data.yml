@@ -32,10 +32,10 @@ jobs:
           git commit -m "Update data files" || exit 0
           git push
 
-          - name: Setup Node.js
-          uses: actions/setup-node@v4
-          with:
-            node-version: '20'
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
       - name: Install dependencies
         run: yarn
